@@ -19,6 +19,7 @@
 import os
 import sys
 import csv
+import json
 import argparse
 import importlib
 from subprocess import Popen, PIPE
@@ -291,6 +292,30 @@ class PasswordManagerCSV(PasswordManager):
                     if value is not None and not len(value) == 0:
                         entry[col] = value
 
+            self.data.append(entry)
+
+class OnePasswordPIF(PasswordManager):
+    fieldnames = None
+
+    def _findpassword(self, jsondata):
+        fields = jsondata['secureContents']['fields']
+        return filter(lambda x: x.name == 'password', fields)
+
+    def parse(self, file):
+        line = file.readline()
+        while line:
+            if not line.startswith('***')
+                entry = OrderedDict()
+                jsondata = json.loads(line)
+
+                entry['title'] = jsondata['title']
+                entry['url'] = jsondata['location']
+                entry['login'] = jsondata['username']
+                entry['comments'] = jsondata['secureContents']['notesPlain']
+                entry['password'] = self._findpassword(jsondata)
+
+                # if self.all # not yet added support for all.
+            line = data.readline()
             self.data.append(entry)
 
 
