@@ -315,8 +315,8 @@ class OnePasswordPIF(PasswordManager):
                 entry['password'] = self._findpassword(jsondata)
 
                 # if self.all # not yet added support for all.
+                self.data.append(entry)
             line = data.readline()
-            self.data.append(entry)
 
 
 class PasswordManagerXML(PasswordManager):
