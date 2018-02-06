@@ -17,10 +17,10 @@ import your password database to a password store repository. It natively
 supports import from 18 different password managers. More manager support can
 easily be added.
 
-Passwords are imported in the existing default password store, therefore
-the password store must has been initialized before with `pass init`.
+Passwords are imported into the existing default password store, therefore
+the password store must have been initialized with `pass init` before running `pass import`.
 
-By default pass, imports entries at the root of the password store and only keeps
+By default pass imports entries at the root of the password store and only keeps
 the main data (password, login, email, url, group). This behavior can be changed
 using the provided options.
 
@@ -31,6 +31,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | **Password Manager** | **How to export Data** | **Command line** |
 |:--------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------:|
 | [1password][1password] | *Select all items [Ctrl+A]: Click Right> Settings> Export: CSV* | `pass import 1password file.csv` |
+| [1passwordpif][1passwordpif] | *Select all items [Ctrl+A]: Click Right> Settings> Export: PIF* | `pass import 1password file.pif` |
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
@@ -55,12 +56,12 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 ```
 usage: pass import [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
-  Import data from most of the password manager. Passwords
+  Imports data from most of password managers. Passwords
   are imported in the existing default password store, therefore
-  the password store must has been initialized before with 'pass init'
+  the password store must have been initialized with 'pass init' before using `pass import`
 
 positional arguments:
-  manager               Can be: 1password, 1password4, chrome, dashlane,
+  manager               Can be: 1password, 1password4, 1passwordpif, chrome, dashlane,
                         enpass, fpm, gorilla, kedpm, keepass, keepasscsv,
                         keepassx, keepassxc, lastpass, passwordexporter,
                         pwsafe, revelation, roboform.

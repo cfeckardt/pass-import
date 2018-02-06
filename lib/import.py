@@ -42,6 +42,7 @@ QUIET = False
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
     '1password4': ['OnePassword4', 'https://1password.com/'],
+    '1passwordpif': ['OnePasswordPIF', 'https://1password.com/'],
     'bitwarden': ['Bitwarden', 'https://bitwarden.com/'],
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
@@ -304,14 +305,14 @@ class OnePasswordPIF(PasswordManager):
     def parse(self, file):
         line = file.readline()
         while line:
-            if not line.startswith('***')
+            if not line.startswith('***'):
                 entry = OrderedDict()
                 jsondata = json.loads(line)
 
                 entry['title'] = jsondata['title']
-                entry['url'] = jsondata['location']
-                entry['login'] = jsondata['username']
-                entry['comments'] = jsondata['secureContents']['notesPlain']
+                if hasattr(jsondata, 'location'): entry['url'] = jsondata['location']
+                if hasattr(jsondata, 'username'): entry['login'] = jsondata['username']
+                if hasattr(jsondata, 'secureContents') and hasattr(jsondata['secureContents'], 'notesPlain'): entry['comments'] = jsondata['secureContents']['notesPlain']
                 entry['password'] = self._findpassword(jsondata)
 
                 # if self.all # not yet added support for all.

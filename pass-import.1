@@ -11,11 +11,11 @@ the existing password manager.
 .SH DESCRIPTION
 \fBpass import\fP is a password store extension allowing you to conveniently
 import your password database to a password store repository. It natively
-supports import from 18 different password managers. More manager support can
+supports imports from 18 different password managers. More manager support can
 easily be added.
 
 Passwords are imported in the existing default password store, therefore
-the password store must has been initialized before with \fBpass init\fP.
+the password store must have been initialized with \fBpass init\fP before running \fBpass import\fP.
 
 By default pass, imports entries at the root of the password store and only keeps
 the main data (password, login, email, url, group). This behavior can be changed
@@ -105,7 +105,7 @@ Website: \fIhttps://1password.com/\fP
 
 Export: Select all items [Ctrl+A]: Click Right> Settings> Export: CSV
 
-Command: pass import 1password file.xml
+Command: pass import 1password file.csv
 
 .TP
 \fB1password4\fP
@@ -113,7 +113,16 @@ Website: \fIhttps://1password.com/\fP
 
 Export: File > Export: CSV
 
-Command: pass import 1password4 file.xml
+Command: pass import 1password4 file.csv
+
+.TP
+\fB1passwordpif\fP
+Website: \fIhttps://1password.com/\fP
+
+Export: Select all items [Ctrl+A]: Click Right> Settings> Export: PIF
+
+Command: pass import 1password file.pif
+
 
 .TP
 \fBbitwarden\fP
