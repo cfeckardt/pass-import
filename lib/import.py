@@ -317,8 +317,9 @@ class OnePasswordPIF(PasswordManager):
                 entry = OrderedDict()
                 jsondata = json.loads(line)
 
+                # pprint(jsondata)
                 entry['title'] = jsondata['title']
-                if hasattr(jsondata, 'location'): entry['url'] = jsondata['location']
+                if 'locationKey' in jsondata: entry['url'] = jsondata['locationKey']
                 if hasattr(jsondata, 'username'): entry['login'] = jsondata['username']
                 if hasattr(jsondata, 'secureContents') and hasattr(jsondata['secureContents'], 'notesPlain'): entry['comments'] = jsondata['secureContents']['notesPlain']
                 password = self._findpassword(jsondata)
@@ -326,6 +327,7 @@ class OnePasswordPIF(PasswordManager):
                     entry['password'] = password
 
                 # if self.all # not yet added support for all.
+                pprint(entry)
                 if 'password' in entry:
                     self.data.append(entry)
             line = file.readline()
