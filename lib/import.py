@@ -26,6 +26,8 @@ from subprocess import Popen, PIPE
 from collections import OrderedDict
 from defusedxml import ElementTree
 
+from pprint import pprint
+
 
 GREEN = '\033[32m'
 YELLOW = '\033[33m'
@@ -299,8 +301,14 @@ class OnePasswordPIF(PasswordManager):
     fieldnames = None
 
     def _findpassword(self, jsondata):
-        fields = jsondata['secureContents']['fields']
-        return filter(lambda x: x.name == 'password', fields)
+        if 'secureContents' in jsondata and 'password' in jsondata['secureContents']:
+            return jsondata['secureContents']['password']
+        if 'secureContents' in jsondata and 'fields' in jsondata['secureContents']:
+            fields = jsondata['secureContents']['fields']
+            passwords = list(filter(lambda x: 'name' in x and x['name'] == 'password', fields))
+            if len(passwords) > 0:
+                return passwords[0]['value']
+        return None
 
     def parse(self, file):
         line = file.readline()
@@ -313,11 +321,14 @@ class OnePasswordPIF(PasswordManager):
                 if hasattr(jsondata, 'location'): entry['url'] = jsondata['location']
                 if hasattr(jsondata, 'username'): entry['login'] = jsondata['username']
                 if hasattr(jsondata, 'secureContents') and hasattr(jsondata['secureContents'], 'notesPlain'): entry['comments'] = jsondata['secureContents']['notesPlain']
-                entry['password'] = self._findpassword(jsondata)
+                password = self._findpassword(jsondata)
+                if password is not None:
+                    entry['password'] = password
 
                 # if self.all # not yet added support for all.
-                self.data.append(entry)
-            line = data.readline()
+                if 'password' in entry:
+                    self.data.append(entry)
+            line = file.readline()
 
 
 class PasswordManagerXML(PasswordManager):
